@@ -1,0 +1,36 @@
+spring:
+  cloud:
+    stream:
+      # 标准使用分号隔开
+#      function.definition: source;transfer;sink
+      function.definition: transfer;sink
+      default-binder: myRabbit
+      binders:
+        myRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /cheng
+      bindings:
+        # 未声明的函数，按命名规范使用会报错
+        myOutput:
+          destination: scsExchange
+          group: group1
+        # 命名规范：根据声明的函数名称，加上-in-0或-out-0
+        source-out-0:
+          destination: scsExchange
+          group: group1
+        transfer-in-0:
+          destination: scsExchange
+          group: group1
+        transfer-out-0:
+          destination: scsExchange
+          group: group1
+        sink-in-0:
+          destination: scsExchange
+          group: group1

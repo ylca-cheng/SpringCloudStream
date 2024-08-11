@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    stream:
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              bind-queue: true
+      bindings:
+        rabbitMQInput:
+          destination: scsExchange
+          group: group1
+        rabbitMQOutput:
+          destination: scsExchange
+          group: group1
+      default-binder: rabbit
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+                virtual-host: /
